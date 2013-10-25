@@ -1,0 +1,14 @@
+{
+    "node": true,
+
+    "curly": true,
+    "unused": true,
+    "trailing": true,
+    "undef": true,
+
+    "camelcase": true,
+    "nomen": true,
+    "onevar": true,
+    "plusplus": true,
+    "indent": 4
+}

@@ -1,0 +1,25 @@
+{
+    "name": "omdb",
+    "version": "0.0.1",
+    "author": "Mister Hat <misterhat144@gmail.com>",
+    "description": "A module to access OMDb API.",
+    "keywords": [ "omdb", "imdb", "movies" ],
+
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/misterhat/omdb.git"
+    },
+
+    "licenses": [
+        {
+            "type": "GPLv3",
+            "url": "http://www.gnu.org/licenses/gpl-3.0.txt"
+        }
+    ],
+
+    "main": "index.js",
+
+    "dependencies": {
+        "request": "2.27.x"
+    }
+}
