@@ -1,5 +1,6 @@
-var request = require('request'),
 
+var stream = require('stream'),
+    request = require('request'),
     host = 'http://www.omdbapi.com/';
 
 // Search for movies by titles.
@@ -41,6 +42,27 @@ module.exports.search = function(terms, done) {
             };
         }));
     });
+};
+
+// Get a Readable Stream with the jpg image data of the poster to the movie,
+// identified by title, title&year or IMDB ID.
+module.exports.poster = function (options) {
+    
+    var out = new stream.PassThrough;
+    
+    module.exports.get(options, false, function (err, res) {
+        if (err) {
+            out.emit('error', err);
+        } else {
+            var req = request(res.poster);
+            req.on('error', function (err) {
+                output.emit('error', err);
+            });
+            req.pipe(out);
+        }
+    });
+    
+    return out;
 };
 
 // Find a movie by title, title & year or IMDB ID. The second argument is
