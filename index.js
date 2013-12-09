@@ -53,6 +53,8 @@ module.exports.poster = function (options) {
     module.exports.get(options, false, function (err, res) {
         if (err) {
             out.emit('error', err);
+        } else if (res === null) {
+            out.emit('error', new Error('Movie not found'));
         } else {
             var req = request(res.poster);
             req.on('error', function (err) {
