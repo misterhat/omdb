@@ -12,5 +12,6 @@
     "trailing": true,
     "maxlen": 80,
     "node": true,
-    "onevar": true
+    "onevar": true,
+    "white": true
 }

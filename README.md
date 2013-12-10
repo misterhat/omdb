@@ -81,6 +81,11 @@ request the extended version of the movie's plot.
 `callback` returns an object of the movie's information. If no movies are
 found, it will return `null`.
 
+### .poster(options)
+Return a readable stream of the poster JPEG.
+
+`options` is the same as the `options` argument used in `.get()`.
+
 ## License
 Copyright (C) (2013) Mister Hat
 
