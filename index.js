@@ -1,12 +1,35 @@
 var request = require('request'),
     stream = require('stream'),
 
-    host = 'http://www.omdbapi.com/';
+    HOST = 'http://www.omdbapi.com/';
+
+// Series have a different format to describe years, so account for that
+// when we format it. For example,
+// "1989" == 1998
+// "1989-" == { from: 1989, to: undefined }
+// "1989-2014" == { from: 1989, to: 2014 }
+function formatYear(year) {
+    var from, to;
+
+    year = year.split('–');
+
+    if (year.length === 2) {
+        from = +year[0];
+
+        if (year[1]) {
+            to = +year[1];
+        }
+
+        return { from: from, to: to };
+    }
+
+    return +year;
+}
 
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
     request({
-        url: host,
+        url: HOST,
         qs: { s: terms }
     }, function (err, res, body) {
         var movies;
@@ -36,7 +59,7 @@ module.exports.search = function (terms, done) {
         done(null, movies.Search.map(function (movie) {
             return {
                 title: movie.Title,
-                year: +movie.Year,
+                year: formatYear(movie.Year),
                 imdb: movie.imdbID,
                 type: movie.Type
             };
@@ -100,7 +123,7 @@ module.exports.get = (function () {
             query.t = options;
         }
 
-        request({ url: host, qs: query }, function (err, res, body) {
+        request({ url: HOST, qs: query }, function (err, res, body) {
             var movie;
 
             if (err) {
@@ -133,7 +156,7 @@ module.exports.get = (function () {
             // Beautify and normalize the ugly results the API returns.
             done(null, {
                 title: movie.Title,
-                year: +movie.Year,
+                year: formatYear(movie.Year),
                 rated: movie.Rated,
 
                 // Cast the API's release date as a native JavaScript Date type.
