@@ -143,6 +143,7 @@ module.exports.get = (function () {
                 // arbitrary string.
                 runtime: movie.Runtime ? formatRuntime(movie.Runtime) : null,
 
+                countries: movie.Country ? movie.Country.split(', ') : null,
                 genres: movie.Genre ? movie.Genre.split(', ') : null,
                 director: movie.Director,
                 writers: movie.Writer ? movie.Writer.split(', ') : null,
