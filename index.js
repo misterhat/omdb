@@ -170,6 +170,7 @@ module.exports.get = (function () {
                 genres: movie.Genre ? movie.Genre.split(', ') : null,
                 director: movie.Director,
                 writers: movie.Writer ? movie.Writer.split(', ') : null,
+                actors: movie.Actors ? movie.Actors.split(', ') : null,
                 plot: movie.Plot,
 
                 // A hotlink to a JPG of the movie poster on IMDB.
