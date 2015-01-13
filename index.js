@@ -1,4 +1,4 @@
-var request = require('request'),
+var needle = require('needle'),
     stream = require('stream'),
 
     HOST = 'http://www.omdbapi.com/';
@@ -28,10 +28,7 @@ function formatYear(year) {
 
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
-    request({
-        url: HOST,
-        qs: { s: terms }
-    }, function (err, res, body) {
+    needle.request('get', HOST, { s: terms }, function (err, res, body) {
         var movies;
 
         if (err) {
@@ -39,7 +36,7 @@ module.exports.search = function (terms, done) {
         }
 
         if (res.statusCode !== 200) {
-            return done(new Error(res.statusCode));
+            return done(new Error('status code: ' + res.statusCode));
         }
 
         try {
@@ -89,7 +86,7 @@ module.exports.get = (function () {
         return +votes.match(/\d/g).join('');
     };
 
-    return function (options, fullPlot, done) {
+    return function (show, fullPlot, done) {
         var query = {};
 
         // If the third argument is omitted, treat the second argument as the
@@ -103,27 +100,27 @@ module.exports.get = (function () {
 
         // Select query based on explicit IMDB ID, explicit title, title & year,
         // IMDB ID and title, respectively.
-        if (options.imdb) {
-            query.i = options.imdb;
-        } else if (options.title) {
-            query.t = options.title;
+        if (show.imdb) {
+            query.i = show.imdb;
+        } else if (show.title) {
+            query.t = show.title;
 
             // In order to search with a year, a title must be present.
-            if (options.year) {
-                query.y = options.year;
+            if (show.year) {
+                query.y = show.year;
             }
 
         // Assume anything beginning with "tt" and ending with digits is an
         // IMDB ID.
-        } else if (/^tt\d+$/.test(options)) {
-            query.i = options;
+        } else if (/^tt\d+$/.test(show)) {
+            query.i = show;
 
         // Finally, assume options is a string repesenting the title.
         } else {
-            query.t = options;
+            query.t = show;
         }
 
-        request({ url: HOST, qs: query }, function (err, res, body) {
+        needle.request('get', HOST, query, function (err, res, body) {
             var movie;
 
             if (err) {
@@ -193,19 +190,22 @@ module.exports.get = (function () {
 
 // Get a Readable Stream with the jpg image data of the poster to the movie,
 // identified by title, title & year or IMDB ID.
-module.exports.poster = function (options) {
-    var out = new stream.PassThrough();
+module.exports.poster = function (show) {
+    var out = new stream.PassThrough(),
+        req;
 
-    module.exports.get(options, false, function (err, res) {
+    module.exports.get(show, false, function (err, res) {
         if (err) {
             out.emit('error', err);
         } else if (!res) {
             out.emit('error', new Error('Movie not found'));
         } else {
-            var req = request(res.poster);
+            req = needle.get(res.poster);
+
             req.on('error', function (err) {
                 out.emit('error', err);
             });
+
             req.pipe(out);
         }
     });

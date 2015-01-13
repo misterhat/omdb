@@ -49,15 +49,33 @@ omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
 ```
 
 ## API
-### .search(terms, callback)
+### omdb.search(terms, callback)
 Run a search request on the API. `terms` should be a string containing search
 terms. `callback` returns an array of movies. If no movies are found, the array
 is empty.
 
-### .get(options, [fullPlot], callback)
+```javascript
+{
+    title: String, // the title of the movie
+    type: 'series' || 'movie' || 'episode',
+
+    // If `type` is "series":
+    year: {
+        from: Number,
+        to: Number || undefined // (if the series is still airing)
+    },
+
+    // Otherwise,
+    year: Number,
+
+    imdb: String
+}
+```
+
+### omdb.get(show, [fullPlot], callback)
 Run a single movie request on the API.
 
-`options` is assumed to be one of the following, respectively:
+`show` is assumed to be one of the following, respectively:
 
 1. An object with an `imdb` property.
 
@@ -81,23 +99,13 @@ request the extended version of the movie's plot.
 `callback` returns an object of the movie's information. If no movies are
 found, it will return `null`.
 
-### .poster(options)
+See the following for a list of possible properties:
+https://github.com/misterhat/omdb/blob/master/index.js#L154
+
+### omdb.poster(show)
 Return a readable stream of the poster JPEG.
 
-`options` is the same as the `options` argument used in `.get()`.
+`show` is the same as the `show` argument used in `.get()`.
 
 ## License
-Copyright (C) (2013) Mister Hat
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see [http://www.gnu.org/licenses/].
+MIT
