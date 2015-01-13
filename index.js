@@ -128,7 +128,7 @@ module.exports.get = (function () {
             }
 
             if (res.statusCode !== 200) {
-                return done(new Error(res.statusCode));
+                return done(new Error('status code: ' + res.statusCode));
             }
 
             try {
