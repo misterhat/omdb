@@ -1,6 +1,4 @@
-var isJpg = require('is-jpg'),
-    readChunk = require('read-chunk'),
-    tap = require('tap').test,
+var tap = require('tap').test,
 
     omdb = require('./');
 
