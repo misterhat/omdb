@@ -39,7 +39,7 @@ module.exports.search = function (terms, done) {
         return done(new Error('`terms` expected to be a string or an object'));
     }
 
-    //make sure search term is not empty
+    // Make sure search term is not empty
     terms.s = terms.s.trim();
     if (!terms.s) {
         return done(new Error('search term is empty'));
@@ -49,6 +49,15 @@ module.exports.search = function (terms, done) {
     var types = ['movie', 'series', 'episode'];
     if (terms.type && types.indexOf(terms.type) === -1) {
         return done(new Error('type must be one of movie, series or episode'));
+    }
+
+    // Chech year
+    if (terms.y) {
+        terms.y = parseInt(terms.y);
+
+        if (isNaN(terms.y)) {
+            return done(new Error('year must be an integer'));
+        }
     }
 
     needle.request('get', HOST, terms, function (err, res, body) {
