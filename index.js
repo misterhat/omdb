@@ -45,6 +45,12 @@ module.exports.search = function (terms, done) {
         return done(new Error('search term is empty'));
     }
 
+    // Remove type if provided and not within set options
+    var types = ['movie', 'series', 'episode'];
+    if (terms.type && types.indexOf(terms.type) === -1) {
+        return done(new Error('type must be one of movie, series or episode'));
+    }
+
     needle.request('get', HOST, terms, function (err, res, body) {
         var movies;
 
