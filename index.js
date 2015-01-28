@@ -28,7 +28,39 @@ function formatYear(year) {
 
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
-    needle.request('get', HOST, { s: terms }, function (err, res, body) {
+    // Check search term is specified as a string or an object
+    if (typeof terms === 'string') {
+        terms = { s: terms };
+    } else if (typeof terms === 'object' && terms !== null) {
+        if (typeof terms.s !== 'string') {
+            return done(new Error('search term expected to be a string'));
+        }
+    } else {
+        return done(new Error('`terms` expected to be a string or an object'));
+    }
+
+    // Make sure search term is not empty
+    terms.s = terms.s.trim();
+    if (!terms.s) {
+        return done(new Error('search term is empty'));
+    }
+
+    // Remove type if provided and not within set options
+    var types = ['movie', 'series', 'episode'];
+    if (terms.type && types.indexOf(terms.type) === -1) {
+        return done(new Error('type must be one of movie, series or episode'));
+    }
+
+    // Chech year
+    if (terms.y) {
+        terms.y = parseInt(terms.y);
+
+        if (isNaN(terms.y)) {
+            return done(new Error('year must be an integer'));
+        }
+    }
+
+    needle.request('get', HOST, terms, function (err, res, body) {
         var movies;
 
         if (err) {
