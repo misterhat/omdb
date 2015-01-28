@@ -1,7 +1,8 @@
 var needle = require('needle'),
     stream = require('stream'),
 
-    HOST = 'http://www.omdbapi.com/';
+    HOST = 'http://www.omdbapi.com/',
+    TYPES = [ 'movie', 'series', 'episode' ];
 
 // Series have a different format to describe years, so account for that
 // when we format it. For example,
@@ -36,6 +37,27 @@ module.exports.search = function (terms, done) {
         query.s = terms.terms || terms.s;
         query.y = terms.year || terms.y;
         query.type = terms.type;
+    }
+
+    if (!query.s) {
+        return done(new Error('No search terms specified.'));
+    }
+
+    if (query.type) {
+        if (TYPES.indexOf(query.type) < 0) {
+            return done(new Error(
+                'Invalid type specified. Valid types are: ' + TYPES.join(', ') +
+                '.'
+            ));
+        }
+    }
+
+    if (query.year) {
+        query.year = parseInt(query.year, 10);
+
+        if (isNan(query.year)) {
+            return done(new Error('Year is not an integer.'));
+        }
     }
 
     needle.request('get', HOST, query, function (err, res, body) {
