@@ -30,6 +30,26 @@ omdb.search('saw', function(err, movies) {
     // ...
 });
 
+omdb.search({ s: 'saw', y: 2005, type: 'movie' }, function(err, movies) {
+    if(err) {
+        return console.error(err);
+    }
+
+    if(movies.length < 1) {
+        return console.log('No movies were found!');
+    }
+
+    movies.forEach(function(movie) {
+        console.log('%s (%d)', movie.title, movie.year);
+    });
+
+    // Saw II (2005)
+    // Saw Rebirth (2005)
+    // I Saw Ben Barka Get Killed (2005)
+    // ...
+});
+
+
 omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
     if(err) {
         return console.error(err);
@@ -51,8 +71,18 @@ omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
 ## API
 ### omdb.search(terms, callback)
 Run a search request on the API. `terms` should be a string containing search
-terms. `callback` returns an array of movies. If no movies are found, the array
-is empty.
+terms or an object such as:
+
+```javascript
+{
+    s: 'search terms',
+    type: 'movie' // optional, one of 'movie', 'series' or 'episode',
+    y: 2003 // optional
+}
+```
+
+`callback` returns an array of movies. If no movies are
+found, the array is empty.
 
 ```javascript
 {
