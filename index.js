@@ -52,10 +52,10 @@ module.exports.search = function (terms, done) {
         }
     }
 
-    if (query.year) {
-        query.year = parseInt(query.year, 10);
+    if (query.y) {
+        query.y = parseInt(query.y, 10);
 
-        if (isNan(query.year)) {
+        if (isNan(query.y)) {
             return done(new Error('Year is not an integer.'));
         }
     }
