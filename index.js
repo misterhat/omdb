@@ -28,7 +28,17 @@ function formatYear(year) {
 
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
-    needle.request('get', HOST, { s: terms }, function (err, res, body) {
+    var query = {};
+
+    if (typeof terms === 'string') {
+        query.s = terms;
+    } else {
+        query.s = terms.terms || terms.s;
+        query.y = terms.year || terms.y;
+        query.type = terms.type;
+    }
+
+    needle.request('get', HOST, query, function (err, res, body) {
         var movies;
 
         if (err) {

@@ -50,10 +50,19 @@ omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
 
 ## API
 ### omdb.search(terms, callback)
-Run a search request on the API. `terms` should be a string containing search
-terms. `callback` returns an array of movies. If no movies are found, the array
-is empty.
+Run a search request on the API.
 
+`terms` can either be a string of search terms, or the following object:
+```javascript
+{
+    terms: String, // `s` can also be used
+    year: Number, // optional (`y` can also be used)
+    type: 'series' || 'movie' || 'episode' // optional
+}
+```
+
+`callback` returns an array of movies. If no movies are found, the array
+is empty. The array will contain objects of the following:
 ```javascript
 {
     title: String, // the title of the movie
