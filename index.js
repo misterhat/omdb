@@ -55,7 +55,7 @@ module.exports.search = function (terms, done) {
     if (query.y) {
         query.y = parseInt(query.y, 10);
 
-        if (isNan(query.y)) {
+        if (isNaN(query.y)) {
             return done(new Error('Year is not an integer.'));
         }
     }
