@@ -60,7 +60,7 @@ module.exports.search = function (terms, done) {
         }
     }
 
-    needle.request('get', HOST, query, function (err, res, body) {
+    needle.request('get', HOST, query, function (err, res, movies) {
         var movies;
 
         if (err) {
@@ -69,12 +69,6 @@ module.exports.search = function (terms, done) {
 
         if (res.statusCode !== 200) {
             return done(new Error('status code: ' + res.statusCode));
-        }
-
-        try {
-            movies = JSON.parse(body);
-        } catch (e) {
-            return done(e);
         }
 
         // If no movies are found, the API returns
@@ -152,7 +146,7 @@ module.exports.get = (function () {
             query.t = show;
         }
 
-        needle.request('get', HOST, query, function (err, res, body) {
+        needle.request('get', HOST, query, function (err, res, movie) {
             var movie;
 
             if (err) {
@@ -161,12 +155,6 @@ module.exports.get = (function () {
 
             if (res.statusCode !== 200) {
                 return done(new Error('status code: ' + res.statusCode));
-            }
-
-            try {
-                movie = JSON.parse(body);
-            } catch (e) {
-                return done(e);
             }
 
             // The movie being searched for could not be found.
