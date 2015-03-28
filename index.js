@@ -61,8 +61,6 @@ module.exports.search = function (terms, done) {
     }
 
     needle.request('get', HOST, query, function (err, res, movies) {
-        var movies;
-
         if (err) {
             return done(err);
         }
@@ -147,8 +145,6 @@ module.exports.get = (function () {
         }
 
         needle.request('get', HOST, query, function (err, res, movie) {
-            var movie;
-
             if (err) {
                 return done(err);
             }
