@@ -163,11 +163,11 @@ module.exports.get = (function () {
                 return done(new Error('status code: ' + res.statusCode));
             }
 
-            try {
-                movie = JSON.parse(body);
-            } catch (e) {
-                return done(e);
-            }
+            //try {
+                movie = body;
+            //} catch (e) {
+              //return done(e);
+            //}
 
             // The movie being searched for could not be found.
             if (movie.Response === 'False') {
