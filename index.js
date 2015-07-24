@@ -145,12 +145,26 @@ module.exports.get = (function () {
         }
 
         needle.request('get', HOST, query, function (err, res, movie) {
+            var i;
+
             if (err) {
                 return done(err);
             }
 
             if (res.statusCode !== 200) {
                 return done(new Error('status code: ' + res.statusCode));
+            }
+
+            // The JSON they gave us has an invalid character. Remove all of
+            // them and retry the parsing.
+            if (typeof movie === 'string') {
+                movie = movie.replace(/[\u0000-\u001f]|\\/g, '');
+
+                try {
+                    movie = JSON.parse(movie);
+                } catch (e) {
+                    return done(e);
+                }
             }
 
             // The movie being searched for could not be found.
