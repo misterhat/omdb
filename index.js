@@ -145,8 +145,6 @@ module.exports.get = (function () {
         }
 
         needle.request('get', HOST, query, function (err, res, movie) {
-            var i;
-
             if (err) {
                 return done(err);
             }
