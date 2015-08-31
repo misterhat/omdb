@@ -1,7 +1,9 @@
-var needle = require('needle'),
-    stream = require('stream'),
+var durableJsonLint = require('durable-json-lint'),
+    needle = require('needle'),
 
-    HOST = 'http://www.omdbapi.com/',
+    stream = require('stream');
+
+var HOST = 'http://www.omdbapi.com/',
     TYPES = [ 'movie', 'series', 'episode' ];
 
 // Series have a different format to describe years, so account for that
@@ -153,15 +155,12 @@ module.exports.get = (function () {
                 return done(new Error('status code: ' + res.statusCode));
             }
 
-            // The JSON they gave us has an invalid character. Remove all of
-            // them and retry the parsing.
+            // Needle was unable to parse the JSON. Try durable-json-lint.
             if (typeof movie === 'string') {
-                movie = movie.replace(/[\u0000-\u001f]|\\/g, '');
-
                 try {
-                    movie = JSON.parse(movie);
+                    movie = JSON.parse(durableJsonLint(movie).json);
                 } catch (e) {
-                    return done(e);
+                    return done(new Error('Malformed JSON.'));
                 }
             }
 
