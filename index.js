@@ -209,6 +209,10 @@ module.exports.get = (function () {
                     votes: movie.imdbVotes ? formatVotes(movie.imdbVotes) : null
                 },
 
+                metacritic: movie.Metascore ? +movie.Metascore : null,
+
+                awards: movie.Awards ? movie.Awards : "",
+
                 type: movie.Type
             });
         });
