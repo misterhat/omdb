@@ -29,6 +29,22 @@ function formatYear(year) {
     return +year;
 }
 
+function formatAwards(raw) {
+    var wins, nominations;
+
+    if (!raw) {
+        return { wins: 0, nominations: 0 };
+    }
+
+    wins = raw.match(/(\d+) wins?/i);
+    nominations = raw.match(/(\d+) nominations?/i);
+
+    return {
+        wins: wins ? +wins[1] : 0,
+        nominations: nominations ? +nominations[1] : 0
+    };
+}
+
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
     var query = {};
@@ -211,7 +227,7 @@ module.exports.get = (function () {
 
                 metacritic: movie.Metascore ? +movie.Metascore : null,
 
-                awards: movie.Awards ? movie.Awards : "",
+                awards: formatAwards(movie.Awards),
 
                 type: movie.Type
             });
