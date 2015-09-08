@@ -33,7 +33,7 @@ function formatAwards(raw) {
     var wins, nominations;
 
     if (!raw) {
-        return { wins: 0, nominations: 0 };
+        return { wins: 0, nominations: 0, text: '' };
     }
 
     wins = raw.match(/(\d+) wins?/i);
@@ -41,7 +41,8 @@ function formatAwards(raw) {
 
     return {
         wins: wins ? +wins[1] : 0,
-        nominations: nominations ? +nominations[1] : 0
+        nominations: nominations ? +nominations[1] : 0,
+        text: raw
     };
 }
 
