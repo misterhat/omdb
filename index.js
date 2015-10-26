@@ -129,17 +129,27 @@ module.exports.get = (function () {
         return +votes.match(/\d/g).join('');
     };
 
-    return function (show, fullPlot, done) {
+    return function (show, options, done) {
         var query = {};
 
         // If the third argument is omitted, treat the second argument as the
         // callback.
         if (!done) {
-            done = fullPlot;
-            fullPlot = false;
+            done = options;
+            options = {};
+
+        // If options is given, but is not an object, assume fullPlot: true
+        // for backwards compatibility
+        } else if (typeof options != "object" && options) {
+            options = { fullPlot: true };
         }
 
-        query.plot = fullPlot ? 'full' : 'short';
+        query.plot = options.fullPlot ? 'full' : 'short';
+
+        // Include Rotten Tomatoes rating, if requested
+        if (options.tomatoes) {
+            query.tomatoes = true;
+        }
 
         // Select query based on explicit IMDB ID, explicit title, title & year,
         // IMDB ID and title, respectively.
@@ -224,6 +234,20 @@ module.exports.get = (function () {
                     // Convert votes from a US formatted string of a number to
                     // a JavaScript Number.
                     votes: movie.imdbVotes ? formatVotes(movie.imdbVotes) : null
+                },
+
+                // Determine tomatoRatings existance by the presense of tomatoMeter
+                tomato: !movie.tomatoMeter ? null : {
+                    // Convert numeric values to numeric form
+                    meter: +movie.tomatoMeter,
+                    image: movie.tomatoImage,
+                    rating: +movie.tomatoRating,
+                    reviews: +movie.tomatoReviews,
+                    fresh: +movie.tomatoFresh,
+                    consensus: movie.tomatoConsensus,
+                    userMeter: +movie.tomatoUserMeter,
+                    userRating: +movie.tomatoUserRating,
+                    userReviews: +movie.tomatoUserReviews
                 },
 
                 metacritic: movie.Metascore ? +movie.Metascore : null,

@@ -81,7 +81,7 @@ is empty. The array will contain objects of the following:
 }
 ```
 
-### omdb.get(show, [fullPlot], callback)
+### omdb.get(show, [options], callback)
 Run a single movie request on the API.
 
 `show` is assumed to be one of the following, respectively:
@@ -95,6 +95,7 @@ Run a single movie request on the API.
 3. An object with *both* a `title` and a `year` property.
 
     `{ title: 'Saw', year: 2004 }`
+
 4. An IMDb ID string.
 
     `'tt0387564'`
@@ -102,8 +103,11 @@ Run a single movie request on the API.
 
     `'Saw'`
 
-`fullPlot` is an optional argument that if set to `true`, will attempt to
-request the extended version of the movie's plot.
+Additionally, `options` object can be passed with the following parameters:
+- `fullPlot` is an optional argument that if set to `true`, will attempt to request the extended version of the movie's plot.
+- `tomatoes` is an optional argument that if set to `true`, will attempt to request the Rotten Tomatoes rating info.
+
+Backwards compatibility is ensured so that if `options` is not an object but is non-empty, assume `fullPlot: true`.
 
 `callback` returns an object of the movie's information. If no movies are
 found, it will return `null`.
