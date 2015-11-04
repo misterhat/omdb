@@ -271,6 +271,8 @@ module.exports.poster = function (show) {
             out.emit('error', err);
         } else if (!res) {
             out.emit('error', new Error('Movie not found'));
+        } else if (!res.poster) {
+            out.emit('error', new Error('Poster not found'));
         } else {
             req = needle.get(res.poster);
 
