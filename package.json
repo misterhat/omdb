@@ -1,6 +1,6 @@
 {
   "name": "omdb",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "author": "Mister Hat <misterhat144@gmail.com>",
   "description": "A module to access OMDb API.",
   "keywords": [

@@ -6,8 +6,8 @@ var durableJsonLint = require('durable-json-lint'),
 var HOST = 'http://www.omdbapi.com/',
     TYPES = [ 'movie', 'series', 'episode' ];
 
-// Series have a different format to describe years, so account for that
-// when we format it. For example,
+// Series have a different format to describe years, so account for that when we
+/// format it. For example,
 // "1989" == 1998
 // "1989-" == { from: 1989, to: undefined }
 // "1989-2014" == { from: 1989, to: 2014 }
@@ -29,6 +29,46 @@ function formatYear(year) {
     return +year;
 }
 
+// Format strings of hours & minutes into minutes. For example,
+// "1 h 30 min" == 90.
+function formatRuntime(raw) {
+    var hours, minutes;
+
+    if (!raw) {
+        return null;
+    }
+
+    hours = raw.match(/(\d+) h/);
+    minutes = raw.match(/(\d+) min/);
+
+    hours = hours ? hours[1] : 0;
+    minutes = minutes ? +minutes[1] : 0;
+
+    return (hours * 60) + minutes;
+}
+
+// Convert votes from a US formatted string of a number to a Number.
+function formatVotes(raw) {
+    return raw ? +raw.match(/\d/g).join('') : null;
+}
+
+// Remove all the strings found within brackets and split by comma.
+function formatList(raw) {
+    var list;
+
+    if (!raw) {
+        return [];
+    }
+
+    list = raw.replace(/\(.+?\)/g, '').split(', ');
+    list = list.map(function (item) {
+        return item.trim();
+    });
+
+    return list;
+}
+
+// Try to find the win and nomination count, but also keep raw just in case.
 function formatAwards(raw) {
     var wins, nominations;
 
@@ -107,158 +147,134 @@ module.exports.search = function (terms, done) {
     });
 };
 
+
 // Find a movie by title, title & year or IMDB ID. The second argument is
 // optional and determines whether or not to return an extended plot synopsis.
-module.exports.get = (function () {
-    var formatRuntime, formatVotes;
+module.exports.get = function (show, options, done) {
+    var query = {};
 
-    // Format strings of hours & minutes into minutes. For example,
-    // "1 h 30 min" == 90.
-    formatRuntime = function (runtime) {
-        var hours = runtime.match(/(\d+) h/),
-            minutes = runtime.match(/(\d+) min/);
+    // If the third argument is omitted, treat the second argument as the
+    // callback.
+    if (!done) {
+        done = options;
+        options = {};
 
-        hours = hours ? hours[1] : 0;
-        minutes = minutes ? +minutes[1] : 0;
+    // If options is given, but is not an object, assume fullPlot: true
+    // for backwards compatibility.
+    } else if (options && typeof options !== 'object') {
+        options = { fullPlot: true };
+    }
 
-        return (hours * 60) + minutes;
-    };
+    query.plot = options.fullPlot ? 'full' : 'short';
 
-    // Strip foreign characters from the string and return a casted Number.
-    formatVotes = function (votes) {
-        return +votes.match(/\d/g).join('');
-    };
+    // Include Rotten Tomatoes rating, if requested.
+    if (options.tomatoes) {
+        query.tomatoes = true;
+    }
 
-    return function (show, options, done) {
-        var query = {};
+    // Select query based on explicit IMDB ID, explicit title, title & year,
+    // IMDB ID and title, respectively.
+    if (show.imdb) {
+        query.i = show.imdb;
+    } else if (show.title) {
+        query.t = show.title;
 
-        // If the third argument is omitted, treat the second argument as the
-        // callback.
-        if (!done) {
-            done = options;
-            options = {};
-
-        // If options is given, but is not an object, assume fullPlot: true
-        // for backwards compatibility
-        } else if (typeof options != "object" && options) {
-            options = { fullPlot: true };
+        // In order to search with a year, a title must be present.
+        if (show.year) {
+            query.y = show.year;
         }
 
-        query.plot = options.fullPlot ? 'full' : 'short';
+    // Assume anything beginning with "tt" and ending with digits is an
+    // IMDB ID.
+    } else if (/^tt\d+$/.test(show)) {
+        query.i = show;
 
-        // Include Rotten Tomatoes rating, if requested
-        if (options.tomatoes) {
-            query.tomatoes = true;
+    // Finally, assume options is a string repesenting the title.
+    } else {
+        query.t = show;
+    }
+
+    needle.request('get', HOST, query, function (err, res, movie) {
+        if (err) {
+            return done(err);
         }
 
-        // Select query based on explicit IMDB ID, explicit title, title & year,
-        // IMDB ID and title, respectively.
-        if (show.imdb) {
-            query.i = show.imdb;
-        } else if (show.title) {
-            query.t = show.title;
-
-            // In order to search with a year, a title must be present.
-            if (show.year) {
-                query.y = show.year;
-            }
-
-        // Assume anything beginning with "tt" and ending with digits is an
-        // IMDB ID.
-        } else if (/^tt\d+$/.test(show)) {
-            query.i = show;
-
-        // Finally, assume options is a string repesenting the title.
-        } else {
-            query.t = show;
+        if (res.statusCode !== 200) {
+            return done(new Error('status code: ' + res.statusCode));
         }
 
-        needle.request('get', HOST, query, function (err, res, movie) {
-            if (err) {
-                return done(err);
+        // Needle was unable to parse the JSON. Try durable-json-lint.
+        if (typeof movie === 'string') {
+            try {
+                movie = JSON.parse(durableJsonLint(movie).json);
+            } catch (e) {
+                return done(new Error('Malformed JSON.'));
             }
+        }
 
-            if (res.statusCode !== 200) {
-                return done(new Error('status code: ' + res.statusCode));
+        // The movie being searched for could not be found.
+        if (movie.Response === 'False') {
+            return done();
+        }
+
+        // Replace 'N/A' strings with null for simple checks in the return
+        // value.
+        Object.keys(movie).forEach(function (key) {
+            if (movie[key] === 'N/A') {
+                movie[key] = null;
             }
-
-            // Needle was unable to parse the JSON. Try durable-json-lint.
-            if (typeof movie === 'string') {
-                try {
-                    movie = JSON.parse(durableJsonLint(movie).json);
-                } catch (e) {
-                    return done(new Error('Malformed JSON.'));
-                }
-            }
-
-            // The movie being searched for could not be found.
-            if (movie.Response === 'False') {
-                return done(null, null);
-            }
-
-            // Replace 'N/A' strings with null for simple checks in the return
-            // value.
-            Object.keys(movie).forEach(function (key) {
-                if (movie[key] === 'N/A') {
-                    movie[key] = null;
-                }
-            });
-
-            // Beautify and normalize the ugly results the API returns.
-            done(null, {
-                title: movie.Title,
-                year: formatYear(movie.Year),
-                rated: movie.Rated,
-
-                // Cast the API's release date as a native JavaScript Date type.
-                released: movie.Released ? new Date(movie.Released) : null,
-
-                // Return runtime as minutes casted as a Number instead of an
-                // arbitrary string.
-                runtime: movie.Runtime ? formatRuntime(movie.Runtime) : null,
-
-                countries: movie.Country ? movie.Country.split(', ') : null,
-                genres: movie.Genre ? movie.Genre.split(', ') : null,
-                director: movie.Director,
-                writers: movie.Writer ? movie.Writer.split(', ') : null,
-                actors: movie.Actors ? movie.Actors.split(', ') : null,
-                plot: movie.Plot,
-
-                // A hotlink to a JPG of the movie poster on IMDB.
-                poster: movie.Poster,
-
-                imdb: {
-                    id: movie.imdbID,
-                    rating: movie.imdbRating ? +movie.imdbRating : null,
-
-                    // Convert votes from a US formatted string of a number to
-                    // a JavaScript Number.
-                    votes: movie.imdbVotes ? formatVotes(movie.imdbVotes) : null
-                },
-
-                // Determine tomatoRatings existance by the presense of tomatoMeter
-                tomato: !movie.tomatoMeter ? null : {
-                    // Convert numeric values to numeric form
-                    meter: +movie.tomatoMeter,
-                    image: movie.tomatoImage,
-                    rating: +movie.tomatoRating,
-                    reviews: +movie.tomatoReviews,
-                    fresh: +movie.tomatoFresh,
-                    consensus: movie.tomatoConsensus,
-                    userMeter: +movie.tomatoUserMeter,
-                    userRating: +movie.tomatoUserRating,
-                    userReviews: +movie.tomatoUserReviews
-                },
-
-                metacritic: movie.Metascore ? +movie.Metascore : null,
-
-                awards: formatAwards(movie.Awards),
-
-                type: movie.Type
-            });
         });
-    };
-}());
+
+        // Beautify and normalize the ugly results the API returns.
+        done(null, {
+            title: movie.Title,
+            year: formatYear(movie.Year),
+            rated: movie.Rated,
+
+            // Cast the API's release date as a native JavaScript Date type.
+            released: movie.Released ? new Date(movie.Released) : null,
+
+            // Return runtime as minutes casted as a Number instead of an
+            // arbitrary string.
+            runtime: formatRuntime(movie.Runtime),
+
+            countries: formatList(movie.Country),
+            genres: formatList(movie.Genre),
+            director: movie.Director,
+            writers: formatList(movie.Writer),
+            actors: formatList(movie.Actors),
+            plot: movie.Plot,
+
+            // A hotlink to a JPG of the movie poster on IMDB.
+            poster: movie.Poster,
+
+            imdb: {
+                id: movie.imdbID,
+                rating: movie.imdbRating ? +movie.imdbRating : null,
+                votes: formatVotes(movie.imdbVotes)
+            },
+
+            // Determine tomatoRatings existance by the presense of tomatoMeter.
+            tomato: !movie.tomatoMeter ? undefined : {
+                meter: +movie.tomatoMeter,
+                image: movie.tomatoImage,
+                rating: +movie.tomatoRating,
+                reviews: +movie.tomatoReviews,
+                fresh: +movie.tomatoFresh,
+                consensus: movie.tomatoConsensus,
+                userMeter: +movie.tomatoUserMeter,
+                userRating: +movie.tomatoUserRating,
+                userReviews: +movie.tomatoUserReviews
+            },
+
+            metacritic: movie.Metascore ? +movie.Metascore : null,
+
+            awards: formatAwards(movie.Awards),
+
+            type: movie.Type
+        });
+    });
+};
 
 // Get a Readable Stream with the jpg image data of the poster to the movie,
 // identified by title, title & year or IMDB ID.
