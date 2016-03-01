@@ -68,6 +68,10 @@ is empty. The array will contain objects of the following:
     title: String, // the title of the movie
     type: 'series' || 'movie' || 'episode',
 
+    episode: Number,
+    season: Number,
+
+
     // If `type` is "series":
     year: {
         from: Number,
@@ -77,7 +81,10 @@ is empty. The array will contain objects of the following:
     // Otherwise,
     year: Number,
 
-    imdb: String
+    imdb: String,
+
+    // parent imdb id of an episode
+    seriesId: String
 }
 ```
 
