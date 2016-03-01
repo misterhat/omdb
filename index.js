@@ -231,6 +231,12 @@ module.exports.get = function (show, options, done) {
             year: formatYear(movie.Year),
             rated: movie.Rated,
 
+            season: movie.Season ? parseInt(movie.Season) : null,
+            episode: movie.Episode ? parseInt(movie.Episode) : null,
+
+            // Only defined for episodes, the imdb id of its parent (the tv show itself).
+            seriesId: movie.seriesID || null,
+
             // Cast the API's release date as a native JavaScript Date type.
             released: movie.Released ? new Date(movie.Released) : null,
 
