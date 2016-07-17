@@ -55,8 +55,8 @@ Run a search request on the API.
 `terms` can either be a string of search terms, or the following object:
 ```javascript
 {
-    terms: String, // `s` can also be used
-    year: Number, // optional (`y` can also be used)
+    terms: String,
+    year: Number, // optional
     type: 'series' || 'movie' || 'episode' // optional
 }
 ```
@@ -77,7 +77,8 @@ is empty. The array will contain objects of the following:
     // Otherwise,
     year: Number,
 
-    imdb: String
+    imdb: String,
+    poster: String
 }
 ```
 
@@ -86,20 +87,18 @@ Run a single movie request on the API.
 
 `show` is assumed to be one of the following, respectively:
 
+`show` can either be an object with the following properies:
+
 1. An object with an `imdb` property.
 
     `{ imdb: 'tt0387564' }`
-2. An object with a `title` property.
+2. An object with a `title` property, and or `year` and `type` properties.
 
-    `{ title: 'Saw' }`
-3. An object with *both* a `title` and a `year` property.
-
-    `{ title: 'Saw', year: 2004 }`
-
-4. An IMDb ID string.
+    `{ title: 'Saw', year: 2004, type: 'movie' }`
+3. An IMDb ID string.
 
     `'tt0387564'`
-5. A title string.
+4. A title string.
 
     `'Saw'`
 
@@ -107,13 +106,11 @@ Additionally, `options` object can be passed with the following parameters:
 - `fullPlot` is an optional argument that if set to `true`, will attempt to request the extended version of the movie's plot.
 - `tomatoes` is an optional argument that if set to `true`, will attempt to request the Rotten Tomatoes rating info.
 
-Backwards compatibility is ensured so that if `options` is not an object but is non-empty, assume `fullPlot: true`.
-
 `callback` returns an object of the movie's information. If no movies are
 found, it will return `null`.
 
 See the following for a list of possible properties:
-https://github.com/misterhat/omdb/blob/master/index.js#L154
+https://github.com/misterhat/omdb/blob/master/index.js#L229
 
 ### omdb.poster(show)
 Return a readable stream of the poster JPEG.

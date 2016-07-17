@@ -104,10 +104,8 @@ module.exports.search = function (terms, done) {
 
     if (query.type) {
         if (TYPES.indexOf(query.type) < 0) {
-            return done(new Error(
-                'Invalid type specified. Valid types are: ' + TYPES.join(', ') +
-                '.'
-            ));
+            return done(new Error('Invalid type specified. Valid types are: ' +
+                                  TYPES.join(', ') + '.'));
         }
     }
 
@@ -141,7 +139,8 @@ module.exports.search = function (terms, done) {
                 title: movie.Title,
                 year: formatYear(movie.Year),
                 imdb: movie.imdbID,
-                type: movie.Type
+                type: movie.Type,
+                poster: movie.Poster
             };
         }));
     });
@@ -182,6 +181,15 @@ module.exports.get = function (show, options, done) {
         // In order to search with a year, a title must be present.
         if (show.year) {
             query.y = show.year;
+        }
+
+        if (show.type) {
+            query.type = show.type;
+
+            if (TYPES.indexOf(query.type) < 0) {
+                return done(new Error('Invalid type specified. Valid types ' +
+                                      'are: ' + TYPES.join(', ') + '.'));
+            }
         }
 
     // Assume anything beginning with "tt" and ending with digits is an
@@ -231,6 +239,9 @@ module.exports.get = function (show, options, done) {
             year: formatYear(movie.Year),
             rated: movie.Rated,
 
+            season: movie.Season ? + movie.Season : null,
+            episode: movie.Episode ? +movie.Episode : null,
+
             // Cast the API's release date as a native JavaScript Date type.
             released: movie.Released ? new Date(movie.Released) : null,
 
@@ -261,10 +272,12 @@ module.exports.get = function (show, options, done) {
                 rating: +movie.tomatoRating,
                 reviews: +movie.tomatoReviews,
                 fresh: +movie.tomatoFresh,
+                rotten: +movie.tomatoRotten,
                 consensus: movie.tomatoConsensus,
                 userMeter: +movie.tomatoUserMeter,
                 userRating: +movie.tomatoUserRating,
-                userReviews: +movie.tomatoUserReviews
+                userReviews: +movie.tomatoUserReviews,
+                url: movie.tomatoURL
             },
 
             metacritic: movie.Metascore ? +movie.Metascore : null,
