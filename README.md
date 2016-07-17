@@ -87,8 +87,6 @@ Run a single movie request on the API.
 
 `show` is assumed to be one of the following, respectively:
 
-`show` can either be an object with the following properies:
-
 1. An object with an `imdb` property.
 
     `{ imdb: 'tt0387564' }`
@@ -110,7 +108,7 @@ Additionally, `options` object can be passed with the following parameters:
 found, it will return `null`.
 
 See the following for a list of possible properties:
-https://github.com/misterhat/omdb/blob/master/index.js#L229
+https://github.com/misterhat/omdb/blob/master/index.js#L237
 
 ### omdb.poster(show)
 Return a readable stream of the poster JPEG.
