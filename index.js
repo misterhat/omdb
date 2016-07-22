@@ -213,7 +213,7 @@ module.exports.get = function (show, options, done) {
         }
 
         // The movie being searched for could not be found.
-        if (movie.Response === 'False') {
+        if (!movie || movie.Response === 'False') {
             return done();
         }
 
