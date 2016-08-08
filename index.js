@@ -244,6 +244,11 @@ module.exports.get = function (show, options, done) {
 
             // Cast the API's release date as a native JavaScript Date type.
             released: movie.Released ? new Date(movie.Released) : null,
+	
+	    //Added DVD and Box Office Information to returned object
+	    dvd: movie.DVD ? new Date(movie.DVD) : null,
+	    boxOffice: movie.BoxOffice ? +movie.BoxOffice : null,
+
 
             // Return runtime as minutes casted as a Number instead of an
             // arbitrary string.
