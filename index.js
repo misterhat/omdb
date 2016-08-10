@@ -277,7 +277,8 @@ module.exports.get = function (show, options, done) {
                 userMeter: +movie.tomatoUserMeter,
                 userRating: +movie.tomatoUserRating,
                 userReviews: +movie.tomatoUserReviews,
-                url: movie.tomatoURL
+                url: movie.tomatoURL,
+                dvdReleased: movie.DVD ? new Date(movie.DVD) : null
             },
 
             metacritic: movie.Metascore ? +movie.Metascore : null,
