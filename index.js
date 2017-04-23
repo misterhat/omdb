@@ -239,7 +239,7 @@ module.exports.get = function (show, options, done) {
             year: formatYear(movie.Year),
             rated: movie.Rated,
 
-            season: movie.Season ? + movie.Season : null,
+            season: movie.totalSeasons ? + movie.totalSeasons : null,
             episode: movie.Episode ? +movie.Episode : null,
 
             // Cast the API's release date as a native JavaScript Date type.
