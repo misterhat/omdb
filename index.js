@@ -239,8 +239,9 @@ module.exports.get = function (show, options, done) {
             year: formatYear(movie.Year),
             rated: movie.Rated,
 
-            season: movie.totalSeasons ? + movie.totalSeasons : null,
+            season: movie.Season ? +movie.Season : null,
             episode: movie.Episode ? +movie.Episode : null,
+            totalSeasons: movie.totalSeasons ? + movie.totalSeasons : null,
 
             // Cast the API's release date as a native JavaScript Date type.
             released: movie.Released ? new Date(movie.Released) : null,
