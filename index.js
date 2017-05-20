@@ -6,6 +6,7 @@ var durableJsonLint = require('durable-json-lint'),
 var HOST = 'http://www.omdbapi.com/',
     TYPES = [ 'movie', 'series', 'episode' ];
 
+var apiKey = 'your-key-here';
 // Series have a different format to describe years, so account for that when we
 /// format it. For example,
 // "1989" == 1998
@@ -88,7 +89,7 @@ function formatAwards(raw) {
 
 // Search for movies by titles.
 module.exports.search = function (terms, done) {
-    var query = {};
+    var query = {apikey: apiKey};
 
     if (typeof terms === 'string') {
         query.s = terms;
@@ -150,7 +151,7 @@ module.exports.search = function (terms, done) {
 // Find a movie by title, title & year or IMDB ID. The second argument is
 // optional and determines whether or not to return an extended plot synopsis.
 module.exports.get = function (show, options, done) {
-    var query = {};
+    var query = {apikey: apiKey};
 
     // If the third argument is omitted, treat the second argument as the
     // callback.
