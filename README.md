@@ -2,6 +2,8 @@
 A simple Node.JS module to access and normalize data from the
 [OMDb API](http://www.omdbapi.com/) by Bryan Fritz.
 
+Updated fork from the [OMDb](https://github.com/misterhat/omdb) npm module by [misterhat](https://github.com/misterhat)
+
 ## Installation
     $ npm install omdb
 
@@ -9,6 +11,7 @@ A simple Node.JS module to access and normalize data from the
 
 ```javascript
 var omdb = require('omdb');
+omdb.key("key-here");
 
 omdb.search('saw', function(err, movies) {
     if(err) {
