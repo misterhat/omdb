@@ -1,10 +1,20 @@
+// modules
 var durableJsonLint = require('durable-json-lint'),
     needle = require('needle'),
+		stream = require('stream');
 
-    stream = require('stream');
-
+// variables
 var HOST = 'http://www.omdbapi.com/',
     TYPES = [ 'movie', 'series', 'episode' ];
+
+// apiKey support
+var apiKey = undefined;
+
+// apiKey export requirement
+module.exports.key = function(key)
+{
+  apiKey = key;
+}
 
 // Series have a different format to describe years, so account for that when we
 /// format it. For example,
@@ -90,6 +100,13 @@ function formatAwards(raw) {
 module.exports.search = function (terms, done) {
     var query = {};
 
+    // if apiKey isn't defined
+		if(apiKey === undefined)
+      return done(new Error('API Key was not specified.'));
+
+    // sending apikey
+    query.apikey = apiKey;
+
     if (typeof terms === 'string') {
         query.s = terms;
     } else {
@@ -163,6 +180,13 @@ module.exports.get = function (show, options, done) {
     } else if (options && typeof options !== 'object') {
         options = { fullPlot: true };
     }
+
+    // if apiKey isn't defined
+    if(apiKey === undefined)
+      return done(new Error('API Key was not specified.'));
+
+    // sending apikey
+    query.apikey = apiKey;
 
     query.plot = options.fullPlot ? 'full' : 'short';
 
@@ -238,10 +262,10 @@ module.exports.get = function (show, options, done) {
             title: movie.Title,
             year: formatYear(movie.Year),
             rated: movie.Rated,
-
-            season: movie.Season ? +movie.Season : null,
-            episode: movie.Episode ? +movie.Episode : null,
-            totalSeasons: movie.totalSeasons ? + movie.totalSeasons : null,
+						seriesId: movie.seriesID ? movie.seriesID : null,
+           	season: movie.Season ? +movie.Season : null,
+           	episode: movie.Episode ? +movie.Episode : null,
+           	totalSeasons: movie.totalSeasons ? + movie.totalSeasons : null,
 
             // Cast the API's release date as a native JavaScript Date type.
             released: movie.Released ? new Date(movie.Released) : null,
@@ -266,26 +290,30 @@ module.exports.get = function (show, options, done) {
                 votes: formatVotes(movie.imdbVotes)
             },
 
-            // Determine tomatoRatings existance by the presense of tomatoMeter.
-            tomato: !movie.tomatoMeter ? undefined : {
-                meter: +movie.tomatoMeter,
-                image: movie.tomatoImage,
-                rating: +movie.tomatoRating,
-                reviews: +movie.tomatoReviews,
-                fresh: +movie.tomatoFresh,
-                rotten: +movie.tomatoRotten,
-                consensus: movie.tomatoConsensus,
-                userMeter: +movie.tomatoUserMeter,
-                userRating: +movie.tomatoUserRating,
-                userReviews: +movie.tomatoUserReviews,
-                url: movie.tomatoURL,
-                dvdReleased: movie.DVD ? new Date(movie.DVD) : null
-            },
+						// This is basically useless since it only returns score at most
+						// added just incase this changes in the future
+						// unless tomatoes parameter passed, this will not show.
+            tomato: !query.tomatoes ? undefined : {
+								score: movie.Ratings[1] ? movie.Ratings[1].Value : null,
+								meter: movie.tomatoMeter ? +movie.tomatoMeter : null,
+								image: movie.tomatoImage ? +movie.tomatoImage : null,
+								rating: movie.tomatoRating ? +movie.tomatoRating : null,
+								reviews: movie.tomatoReviews ? +movie.tomatoReviews : null,
+								fresh: movie.tomatoFresh ? +movie.tomatoFresh : null,
+								rotten: movie.tomatoRotten ? +movie.tomatoRotten : null,
+								consensus: movie.tomatoConsensus ? movie.tomatoConsensus : null,
+								userMeter: movie.tomatoUserMeter ? movie.tomatoUserMeter : null,
+								userRating: movie.tomatoUserRating ? movie.tomatoUserRating : null,
+								userReviews: movie.tomatoUserReviews ? movie.tomatoUserReviews : null,
+								url: movie.tomatoURL ? movie.tomatoURL : null
+						},
 
             metacritic: movie.Metascore ? +movie.Metascore : null,
-
             awards: formatAwards(movie.Awards),
-
+						boxOffice: movie.BoxOffice ? movie.BoxOffice : null,
+						productionCompany: movie.Production,
+						website: movie.Website,
+						dvdReleased: movie.DVD ? new Date(movie.DVD) : null,
             type: movie.Type
         });
     });

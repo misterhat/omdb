@@ -1,7 +1,7 @@
 {
   "name": "omdb",
-  "version": "0.8.0",
-  "author": "Mister Hat <misterhat144@gmail.com>",
+  "version": "0.9.0",
+  "author": "notstevek",
   "description": "A module to access OMDb API.",
   "keywords": [
     "omdb",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/misterhat/omdb.git"
+    "url": "https://github.com/notstevek/omdb.git"
   },
   "license": "MIT",
   "main": "index.js",
@@ -22,10 +22,10 @@
     "tap": "^6.2.0"
   },
   "bugs": {
-    "url": "https://github.com/misterhat/omdb/issues"
+    "url": "https://github.com/notstevek/omdb/issues"
   },
-  "homepage": "https://github.com/misterhat/omdb",
+  "homepage": "https://github.com/notstevek/omdb",
   "scripts": {
-    "test": "node test.js"
+    "test": ""
   }
 }
