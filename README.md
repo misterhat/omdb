@@ -9,6 +9,7 @@ A simple Node.JS module to access and normalize data from the
 
 ```javascript
 var omdb = require('omdb');
+omdb.key("your-key-here");
 
 omdb.search('saw', function(err, movies) {
     if(err) {
