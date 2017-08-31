@@ -2,6 +2,9 @@ var tap = require('tap').test,
 
     omdb = require('./');
 
+//api key
+omdb.key("your-key-here");
+
 var SEARCH_PROPERTIES = [ 'title', 'year', 'imdb', 'type' ];
 
 tap('correct searching', function (test) {
