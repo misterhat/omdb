@@ -1,0 +1,12 @@
+API
+coverage
+node_modules
+mocks
+src
+tests
+.env
+.gitignore
+.travis.yml
+package-lock.json
+tsconfig.json
+tslint.json

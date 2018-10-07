@@ -1,119 +1,124 @@
 # omdb
-A simple Node.JS module to access and normalize data from the
-[OMDb API](http://www.omdbapi.com/) by Bryan Fritz.
+[![npm](https://img.shields.io/npm/v/omdb.svg?style=flat-square)](https://www.npmjs.com/package/omdb)
+[![npm](https://img.shields.io/npm/dt/omdb.svg?style=flat-square)](https://www.npmjs.com/package/omdb)
+[![Travis Status](https://img.shields.io/travis/Fazendaaa/omdb.svg?style=flat-square)](https://travis-ci.org/Fazendaaa/omdb)
+[![Dependencies](https://david-dm.org/Fazendaaa/omdb.svg?style=flat-square)](https://github.com/Fazendaaa/omdb/blob/master/package.json)
+[![Coverage Status](https://img.shields.io/coveralls/github/Fazendaaa/omdb/badge.svg?style=flat-square)](https://coveralls.io/github/Fazendaaa/omdb?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/04c334bbe522d8a0823f/maintainability)](https://codeclimate.com/github/Fazendaaa/omdb/maintainability)
+
+A simple [nodejs](https://nodejs.org/) package to access and normalize data from the
+[OMDb API](https://www.omdbapi.com/) by Bryan Fritz. Written in [TypeScript](https://www.typescriptlang.org/).
 
 ## Installation
-    $ npm install omdb
+```bash
+npm install omdb --save
+```
+
+**note**: _no need of installing @types/omdb, TS typings are linked int [package.json](./package.json)_
 
 ## Examples
 
-```javascript
-var omdb = require('omdb');
+```typescript
+import { poster, search, setApi } from 'omdb';
 
-omdb.search('saw', function(err, movies) {
-    if(err) {
-        return console.error(err);
-    }
+setAPI('YourApiKeyHere');
 
-    if(movies.length < 1) {
-        return console.log('No movies were found!');
-    }
+search('Guardians of The Galaxy')
+    .then(console.log)
+    .catch(console.error);
 
-    movies.forEach(function(movie) {
-        console.log('%s (%d)', movie.title, movie.year);
-    });
+search('tt2015381')
+    .then(console.log)
+    .catch(console.error);
 
-    // Saw (2004)
-    // Saw II (2005)
-    // Saw III (2006)
-    // Saw IV (2007)
-    // ...
-});
+search({ title: 'Guardians of The Galaxy', year: 2017 })
+    .then(console.log)
+    .catch(console.error);
 
-omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
-    if(err) {
-        return console.error(err);
-    }
-
-    if(!movie) {
-        return console.log('Movie not found!');
-    }
-
-    console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
-    console.log(movie.plot);
-
-    // Saw (2004) 7.6/10
-    // Two men wake up at opposite sides of a dirty, disused bathroom, chained
-    // by their ankles to pipes. Between them lies...
-});
+poster({ imdbID: 'tt0944947' })
+    .then(console.log)
+    .catch(console.error);
 ```
+
+Output example of `search`:
+
+```typescript
+{
+    Year: '2014',
+    Type: 'movie',
+    Country: 'USA',
+    Rated: 'PG-13',
+    Metascore: '76',
+    Response: 'True',
+    imdbRating: '8.1',
+    DVD: '09 Dec 2014',
+    Runtime: '121 min',
+    imdbID: 'tt2015381',
+    Language: 'English',
+    imdbVotes: '871,949',
+    Director: 'James Gunn',
+    Released: '01 Aug 2014',
+    BoxOffice: '$270,592,504',
+    Title: 'Guardians of the Galaxy',
+    Genre: 'Action, Adventure, Comedy',
+    Production: 'Walt Disney Pictures',
+    Actors: 'Chris Pratt, Zoe Saldana, Dave Bautista, Vin Diesel',
+    Awards: 'Nominated for 2 Oscars. Another 52 wins & 99 nominations.',
+    Poster: 'https://m.media-amazon.com/images/M/MV5BMTAwMjU5OTgxNjZeQTJeQWpwZ15BbWU4MDUxNDYxODEx._V1_SX300.jpg',
+    Website: 'http://marvel.com/guardians',
+    Plot: 'A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.',
+    Writer: 'James Gunn, Nicole Perlman, Dan Abnett (based on the Marvel comics by), Andy Lanning (based on the Marvel comics by), Bill Mantlo (character created by: Rocket Raccoon), Keith Giffen (character created by: Rocket Raccoon), Jim Starlin (characters created by: Drax the Destroyer,  Gamora & Thanos), Steve Englehart (character created by: Star-Lord), Steve Gan (character created by: Star-Lord), Steve Gerber (character created by: Howard the Duck), Val Mayerik (character created by: Howard the Duck)',
+    Ratings: [
+        {
+            Value: '8.1/10',
+            Source: 'Internet Movie Database'
+        },
+        {
+            Value: '91%',
+            Source: 'Rotten Tomatoes'
+        },
+        {
+            Value: '76/100',
+            Source: 'Metacritic'
+        }
+    ]
+}
+```
+
+Output example of `poster`:
+
+```typescript
+<Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 01 01 00 60 00 60 00 00 ff db 00 43 00 02 01 01 02 01 01 02 02 02 02 02 02 02 02 03 05 03 03 03 03 03 06 04 04 03 ... >
+```
+
+To run all of this examples and more, check the [tests](./tests/) folder.
 
 ## API
-### omdb.search(terms, callback)
-Run a search request on the API.
+### setApi(apiKey)
 
-`terms` can either be a string of search terms, or the following object:
-```javascript
+`apiKey` (string): Configures the apiKey to be used in all searches, read more in how you can get one [here](http://www.omdbapi.com/apikey.aspx).
+
+### search(terms)
+
+`terms` (string | object): searches the OMDB database through media name, ID or the following object:
+
+```typescript
 {
-    terms: String,
-    year: Number, // optional
-    type: 'series' || 'movie' || 'episode' // optional
+    search: string,
+    title(optional): string,
+    imdbID(optional): string,
+    year(optional): number | string,
+    page(optional): number | string,
+    plot(optional): 'full' | 'short',
+    version(optional): number | string,
+    type(optional): 'movie' | 'series' | 'episodes',
 }
 ```
 
-`callback` returns an array of movies. If no movies are found, the array
-is empty. The array will contain objects of the following:
-```javascript
-{
-    title: String, // the title of the movie
-    type: 'series' || 'movie' || 'episode',
+### poster(terms)
+Return a stream of the poster JPEG.
 
-    // If `type` is "series":
-    year: {
-        from: Number,
-        to: Number || undefined // (if the series is still airing)
-    },
-
-    // Otherwise,
-    year: Number,
-
-    imdb: String,
-    poster: String
-}
-```
-
-### omdb.get(show, [options], callback)
-Run a single movie request on the API.
-
-`show` is assumed to be one of the following, respectively:
-
-1. An object with an `imdb` property.
-
-    `{ imdb: 'tt0387564' }`
-2. An object with a `title` property, and or `year` and `type` properties.
-
-    `{ title: 'Saw', year: 2004, type: 'movie' }`
-3. An IMDb ID string.
-
-    `'tt0387564'`
-4. A title string.
-
-    `'Saw'`
-
-Additionally, `options` object can be passed with the following parameters:
-- `fullPlot` is an optional argument that if set to `true`, will attempt to request the extended version of the movie's plot.
-- `tomatoes` is an optional argument that if set to `true`, will attempt to request the Rotten Tomatoes rating info.
-
-`callback` returns an object of the movie's information. If no movies are
-found, it will return `null`.
-
-See the following for a list of possible properties:
-https://github.com/misterhat/omdb/blob/master/index.js#L237
-
-### omdb.poster(show)
-Return a readable stream of the poster JPEG.
-
-`show` is the same as the `show` argument used in `.get()`.
+`terms` is the same as in [search](###search).
 
 ## License
 MIT

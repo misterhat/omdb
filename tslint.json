@@ -1,0 +1,28 @@
+{
+    "jsRules": {},
+    "rulesDirectory": [],
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint-microsoft-contrib"
+    ],
+    "rules": {
+        "align": false,
+        "typedef": false,
+        "no-console": false,
+        "export-name": false,
+        "import-name": false,
+        "variable-name": false,
+        "missing-jsdoc": false,
+        "no-unsafe-any": false,
+        "interface-name": false,
+        "no-relative-imports": false,
+        "no-reserved-keywords": false,
+        "no-floating-promises": false,
+        "prefer-method-signature": false,
+        "no-implicit-dependencies": false,
+        "match-default-export-name": false,
+        "mocha-no-side-effect-code": false,
+        "binary-expression-operand-order": false,
+        "no-backbone-get-set-outside-model": false
+    }
+}
