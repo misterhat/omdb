@@ -1,1 +1,4 @@
 source: /API
+include:
+  - "_*_.html"
+  - "_*_.*.html"

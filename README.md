@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/dt/omdb.svg?style=flat-square)](https://www.npmjs.com/package/omdb)
 [![Travis Status](https://img.shields.io/travis/Fazendaaa/omdb.svg?style=flat-square)](https://travis-ci.org/Fazendaaa/omdb)
 [![Dependencies](https://david-dm.org/Fazendaaa/omdb.svg?style=flat-square)](https://github.com/Fazendaaa/omdb/blob/master/package.json)
-[![Coverage Status](https://img.shields.io/coveralls/github/Fazendaaa/omdb/badge.svg?style=flat-square)](https://coveralls.io/github/Fazendaaa/omdb?branch=master)
+[![Codecov Status](https://img.shields.io/codecov/c/github//Fazendaaa/omdb/badge.svg?style=flat-square)](https://codecov.io/gh/Fazendaaa/omdb)
 [![Maintainability](https://api.codeclimate.com/v1/badges/04c334bbe522d8a0823f/maintainability)](https://codeclimate.com/github/Fazendaaa/omdb/maintainability)
 
 A simple [nodejs](https://nodejs.org/) package to access and normalize data from the
