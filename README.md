@@ -38,6 +38,14 @@ search({ title: 'Guardians of The Galaxy', year: 2017 })
 poster({ imdbID: 'tt0944947' })
     .then(console.log)
     .catch(console.error);
+
+const asyncExample = async (title: string): void => {
+    const result = await search(title);
+
+    console.log('While searching for: ', title, '. OMDB found the following:\n', result);
+};
+
+asyncExample('Guardians of The Galaxy II');
 ```
 
 Output example of `search`:

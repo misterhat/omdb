@@ -69,7 +69,7 @@
 					<a href="https://www.npmjs.com/package/omdb"><img src="https://img.shields.io/npm/dt/omdb.svg?style=flat-square" alt="npm"></a>
 					<a href="https://travis-ci.org/Fazendaaa/omdb"><img src="https://img.shields.io/travis/Fazendaaa/omdb.svg?style=flat-square" alt="Travis Status"></a>
 					<a href="https://github.com/Fazendaaa/omdb/blob/master/package.json"><img src="https://david-dm.org/Fazendaaa/omdb.svg?style=flat-square" alt="Dependencies"></a>
-					<a href="https://coveralls.io/github/Fazendaaa/omdb?branch=master"><img src="https://img.shields.io/coveralls/github/Fazendaaa/omdb/badge.svg?style=flat-square" alt="Coverage Status"></a>
+					<a href="https://codecov.io/gh/Fazendaaa/omdb"><img src="https://img.shields.io/codecov/c/github//Fazendaaa/omdb/badge.svg?style=flat-square" alt="Codecov Status"></a>
 				<a href="https://codeclimate.com/github/Fazendaaa/omdb/maintainability"><img src="https://api.codeclimate.com/v1/badges/04c334bbe522d8a0823f/maintainability" alt="Maintainability"></a></p>
 				<p>A simple <a href="https://nodejs.org/">nodejs</a> package to access and normalize data from the
 				<a href="https://www.omdbapi.com/">OMDb API</a> by Bryan Fritz. Written in <a href="https://www.typescriptlang.org/">TypeScript</a>.</p>
@@ -95,7 +95,15 @@ search({ title: <span class="hljs-string">'Guardians of The Galaxy'</span>, year
 
 poster({ imdbID: <span class="hljs-string">'tt0944947'</span> })
     .then(<span class="hljs-built_in">console</span>.log)
-    .catch(<span class="hljs-built_in">console</span>.error);</code></pre>
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+<span class="hljs-keyword">const</span> asyncExample = <span class="hljs-keyword">async</span> (title: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">void</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> search(title);
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'While searching for: '</span>, title, <span class="hljs-string">'. OMDB found the following:\n'</span>, result);
+};
+
+asyncExample(<span class="hljs-string">'Guardians of The Galaxy II'</span>);</code></pre>
 				<p>Output example of <code>search</code>:</p>
 				<pre><code class="language-typescript">{
     Year: <span class="hljs-string">'2014'</span>,
