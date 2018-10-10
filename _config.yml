@@ -1,4 +1,4 @@
-source: /API
+source: /docs
 include:
   - "_*_.html"
   - "_*_.*.html"
