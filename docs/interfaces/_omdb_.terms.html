@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Search | omdb</title>
+	<title>Terms | omdb</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_omdb_.html">&quot;omdb&quot;</a>
 				</li>
 				<li>
-					<a href="_omdb_.search.html">Search</a>
+					<a href="_omdb_.terms.html">Terms</a>
 				</li>
 			</ul>
-			<h1>Interface Search</h1>
+			<h1>Interface Terms</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Search</span>
+						<span class="target">Terms</span>
 					</li>
 				</ul>
 			</section>
@@ -84,11 +84,14 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.search.html#poster" class="tsd-kind-icon">Poster</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.search.html#title" class="tsd-kind-icon">Title</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.search.html#type" class="tsd-kind-icon">Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.search.html#year" class="tsd-kind-icon">Year</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.search.html#imdbid" class="tsd-kind-icon">imdbID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#imdbid" class="tsd-kind-icon">imdbID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#page" class="tsd-kind-icon">page</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#plot" class="tsd-kind-icon">plot</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#search" class="tsd-kind-icon">search</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#title" class="tsd-kind-icon">title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#version" class="tsd-kind-icon">version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_omdb_.terms.html#year" class="tsd-kind-icon">year</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,52 +100,82 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="poster" class="tsd-anchor"></a>
-					<h3>Poster</h3>
-					<div class="tsd-signature tsd-kind-icon">Poster<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="imdbid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> imdbID</h3>
+					<div class="tsd-signature tsd-kind-icon">imdbID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/14f36a2/src/omdb.ts#L66">omdb.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L26">omdb.ts:26</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="page" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page</h3>
+					<div class="tsd-signature tsd-kind-icon">page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L28">omdb.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="plot" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> plot</h3>
+					<div class="tsd-signature tsd-kind-icon">plot<span class="tsd-signature-symbol">:</span> <a href="../modules/_omdb_.html#plot" class="tsd-signature-type">Plot</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L23">omdb.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="search" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search</h3>
+					<div class="tsd-signature tsd-kind-icon">search<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L25">omdb.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="title" class="tsd-anchor"></a>
-					<h3>Title</h3>
-					<div class="tsd-signature tsd-kind-icon">Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> title</h3>
+					<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/14f36a2/src/omdb.ts#L64">omdb.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L24">omdb.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="type" class="tsd-anchor"></a>
-					<h3>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../modules/_omdb_.html#type" class="tsd-signature-type">Type</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/14f36a2/src/omdb.ts#L63">omdb.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L22">omdb.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="version" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> version</h3>
+					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L29">omdb.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="year" class="tsd-anchor"></a>
-					<h3>Year</h3>
-					<div class="tsd-signature tsd-kind-icon">Year<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> year</h3>
+					<div class="tsd-signature tsd-kind-icon">year<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/14f36a2/src/omdb.ts#L62">omdb.ts:62</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="imdbid" class="tsd-anchor"></a>
-					<h3>imdbID</h3>
-					<div class="tsd-signature tsd-kind-icon">imdbID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/14f36a2/src/omdb.ts#L65">omdb.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/Fazendaaa/omdb/blob/943e3ec/src/omdb.ts#L27">omdb.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,33 +218,42 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_omdb_.ratings.html" class="tsd-kind-icon">Ratings</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_omdb_.search.html" class="tsd-kind-icon">Search</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_omdb_.search.html" class="tsd-kind-icon">Search</a>
+						<a href="_omdb_.terms.html" class="tsd-kind-icon">Terms</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_omdb_.search.html#poster" class="tsd-kind-icon">Poster</a>
+								<a href="_omdb_.terms.html#imdbid" class="tsd-kind-icon">imdbID</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_omdb_.search.html#title" class="tsd-kind-icon">Title</a>
+								<a href="_omdb_.terms.html#page" class="tsd-kind-icon">page</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_omdb_.search.html#type" class="tsd-kind-icon">Type</a>
+								<a href="_omdb_.terms.html#plot" class="tsd-kind-icon">plot</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_omdb_.search.html#year" class="tsd-kind-icon">Year</a>
+								<a href="_omdb_.terms.html#search" class="tsd-kind-icon">search</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_omdb_.search.html#imdbid" class="tsd-kind-icon">imdbID</a>
+								<a href="_omdb_.terms.html#title" class="tsd-kind-icon">title</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_omdb_.terms.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_omdb_.terms.html#version" class="tsd-kind-icon">version</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_omdb_.terms.html#year" class="tsd-kind-icon">year</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_omdb_.terms.html" class="tsd-kind-icon">Terms</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_omdb_.html#omdb" class="tsd-kind-icon">OMDB</a>
 					</li>

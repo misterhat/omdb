@@ -1,12 +1,15 @@
-API
 coverage
-node_modules
+docs
 mocks
+node_modules
 src
 tests
+_config.yml
 .env
 .gitignore
 .travis.yml
+jest.config.json
 package-lock.json
 tsconfig.json
 tslint.json
+webpack.config.ts
