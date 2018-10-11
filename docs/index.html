@@ -1,0 +1,260 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>omdb</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">omdb</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> omdb</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="omdb">omdb</h1>
+				<p><a href="https://www.npmjs.com/package/omdb"><img src="https://img.shields.io/npm/v/omdb.svg?style=flat-square" alt="npm"></a>
+					<a href="https://www.npmjs.com/package/omdb"><img src="https://img.shields.io/npm/dt/omdb.svg?style=flat-square" alt="npm"></a>
+					<a href="https://travis-ci.org/Fazendaaa/omdb"><img src="https://img.shields.io/travis/Fazendaaa/omdb.svg?style=flat-square" alt="Travis Status"></a>
+					<a href="https://github.com/Fazendaaa/omdb/blob/master/package.json"><img src="https://david-dm.org/Fazendaaa/omdb.svg?style=flat-square" alt="Dependencies"></a>
+					<a href="https://codecov.io/gh/Fazendaaa/omdb"><img src="https://img.shields.io/codecov/c/github/Fazendaaa/omdb/badge.svg?style=flat-square" alt="Codecov Status"></a>
+				<a href="https://codeclimate.com/github/Fazendaaa/omdb/maintainability"><img src="https://api.codeclimate.com/v1/badges/04c334bbe522d8a0823f/maintainability" alt="Maintainability"></a></p>
+				<p>A simple <a href="https://nodejs.org/">nodejs</a> package to access and normalize data from the
+				<a href="https://www.omdbapi.com/">OMDb API</a> by Bryan Fritz. Written in <a href="https://www.typescriptlang.org/">TypeScript</a>.</p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="language-bash">npm install omdb --save</code></pre>
+				<p><strong>note</strong>: <em>no need of installing @types/omdb, TS typings are linked int <a href="./package.json">package.json</a></em></p>
+				<h2 id="examples">Examples</h2>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { poster, search, setApi } <span class="hljs-keyword">from</span> <span class="hljs-string">'omdb'</span>;
+
+setAPI(<span class="hljs-string">'YourApiKeyHere'</span>);
+
+search(<span class="hljs-string">'Guardians of The Galaxy'</span>)
+    .then(<span class="hljs-built_in">console</span>.log)
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+search(<span class="hljs-string">'tt2015381'</span>)
+    .then(<span class="hljs-built_in">console</span>.log)
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+search({ title: <span class="hljs-string">'Guardians of The Galaxy'</span>, year: <span class="hljs-number">2017</span> })
+    .then(<span class="hljs-built_in">console</span>.log)
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+poster({ imdbID: <span class="hljs-string">'tt0944947'</span> })
+    .then(<span class="hljs-built_in">console</span>.log)
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+<span class="hljs-keyword">const</span> asyncExample = <span class="hljs-keyword">async</span> (title: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">void</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> search(title);
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'While searching for: '</span>, title, <span class="hljs-string">'. OMDB found the following:\n'</span>, result);
+};
+
+asyncExample(<span class="hljs-string">'Guardians of The Galaxy II'</span>);</code></pre>
+				<p>Output example of <code>search</code>:</p>
+				<pre><code class="language-typescript">{
+    Year: <span class="hljs-string">'2014'</span>,
+    Type: <span class="hljs-string">'movie'</span>,
+    Country: <span class="hljs-string">'USA'</span>,
+    Rated: <span class="hljs-string">'PG-13'</span>,
+    Metascore: <span class="hljs-string">'76'</span>,
+    Response: <span class="hljs-string">'True'</span>,
+    imdbRating: <span class="hljs-string">'8.1'</span>,
+    DVD: <span class="hljs-string">'09 Dec 2014'</span>,
+    Runtime: <span class="hljs-string">'121 min'</span>,
+    imdbID: <span class="hljs-string">'tt2015381'</span>,
+    Language: <span class="hljs-string">'English'</span>,
+    imdbVotes: <span class="hljs-string">'871,949'</span>,
+    Director: <span class="hljs-string">'James Gunn'</span>,
+    Released: <span class="hljs-string">'01 Aug 2014'</span>,
+    BoxOffice: <span class="hljs-string">'$270,592,504'</span>,
+    Title: <span class="hljs-string">'Guardians of the Galaxy'</span>,
+    Genre: <span class="hljs-string">'Action, Adventure, Comedy'</span>,
+    Production: <span class="hljs-string">'Walt Disney Pictures'</span>,
+    Actors: <span class="hljs-string">'Chris Pratt, Zoe Saldana, Dave Bautista, Vin Diesel'</span>,
+    Awards: <span class="hljs-string">'Nominated for 2 Oscars. Another 52 wins &amp; 99 nominations.'</span>,
+    Poster: <span class="hljs-string">'https://m.media-amazon.com/images/M/MV5BMTAwMjU5OTgxNjZeQTJeQWpwZ15BbWU4MDUxNDYxODEx._V1_SX300.jpg'</span>,
+    Website: <span class="hljs-string">'http://marvel.com/guardians'</span>,
+    Plot: <span class="hljs-string">'A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.'</span>,
+    Writer: <span class="hljs-string">'James Gunn, Nicole Perlman, Dan Abnett (based on the Marvel comics by), Andy Lanning (based on the Marvel comics by), Bill Mantlo (character created by: Rocket Raccoon), Keith Giffen (character created by: Rocket Raccoon), Jim Starlin (characters created by: Drax the Destroyer,  Gamora &amp; Thanos), Steve Englehart (character created by: Star-Lord), Steve Gan (character created by: Star-Lord), Steve Gerber (character created by: Howard the Duck), Val Mayerik (character created by: Howard the Duck)'</span>,
+    Ratings: [
+        {
+            Value: <span class="hljs-string">'8.1/10'</span>,
+            Source: <span class="hljs-string">'Internet Movie Database'</span>
+        },
+        {
+            Value: <span class="hljs-string">'91%'</span>,
+            Source: <span class="hljs-string">'Rotten Tomatoes'</span>
+        },
+        {
+            Value: <span class="hljs-string">'76/100'</span>,
+            Source: <span class="hljs-string">'Metacritic'</span>
+        }
+    ]
+}</code></pre>
+				<p>Output example of <code>poster</code>:</p>
+				<pre><code class="language-typescript">&lt;Buffer ff d8 ff e0 <span class="hljs-number">00</span> <span class="hljs-number">10</span> <span class="hljs-number">4</span>a <span class="hljs-number">46</span> <span class="hljs-number">49</span> <span class="hljs-number">46</span> <span class="hljs-number">00</span> <span class="hljs-number">01</span> <span class="hljs-number">01</span> <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">60</span> <span class="hljs-number">00</span> <span class="hljs-number">60</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> ff db <span class="hljs-number">00</span> <span class="hljs-number">43</span> <span class="hljs-number">00</span> <span class="hljs-number">02</span> <span class="hljs-number">01</span> <span class="hljs-number">01</span> <span class="hljs-number">02</span> <span class="hljs-number">01</span> <span class="hljs-number">01</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">02</span> <span class="hljs-number">03</span> <span class="hljs-number">05</span> <span class="hljs-number">03</span> <span class="hljs-number">03</span> <span class="hljs-number">03</span> <span class="hljs-number">03</span> <span class="hljs-number">03</span> <span class="hljs-number">06</span> <span class="hljs-number">04</span> <span class="hljs-number">04</span> <span class="hljs-number">03</span> ... &gt;</code></pre>
+				<p>To run all of this examples and more, check the <a href="./tests/">tests</a> folder.</p>
+				<h2 id="api">API</h2>
+				<h3 id="setapi-apikey-">setApi(apiKey)</h3>
+				<p><code>apiKey</code> (string): Configures the apiKey to be used in all searches, read more in how you can get one <a href="http://www.omdbapi.com/apikey.aspx">here</a>.</p>
+				<h3 id="search-terms-">search(terms)</h3>
+				<p><code>terms</code> (string | object): searches the OMDB database through media name, ID or the following object:</p>
+				<pre><code class="language-typescript">{
+    search: <span class="hljs-built_in">string</span>,
+    title(optional): <span class="hljs-built_in">string</span>,
+    imdbID(optional): <span class="hljs-built_in">string</span>,
+    year(optional): <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>,
+    page(optional): <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>,
+    plot(optional): <span class="hljs-string">'full'</span> | <span class="hljs-string">'short'</span>,
+    version(optional): <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>,
+    <span class="hljs-keyword">type</span>(optional): <span class="hljs-string">'movie'</span> | <span class="hljs-string">'series'</span> | <span class="hljs-string">'episodes'</span>,
+}</code></pre>
+				<h3 id="poster-terms-">poster(terms)</h3>
+				<p>Return a stream of the poster JPEG.</p>
+				<p><code>terms</code> is the same as in <a href="###search">search</a>.</p>
+				<h2 id="license">License</h2>
+				<p>MIT</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_omdb_.html">"omdb"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parse_.html">"parse"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
